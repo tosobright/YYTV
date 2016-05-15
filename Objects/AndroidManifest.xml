@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	package="cn.soshare.me.YYTV"
+	android:versionCode="1"
+	android:versionName="1.0.0.515"
+	android:installLocation="internalOnly">
+	
+	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="16"/>
+	<supports-screens android:largeScreens="true" 
+	    android:normalScreens="true" 
+	    android:smallScreens="true" 
+	    android:anyDensity="true"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.WAKE_LOCK"/>
+	<application
+		android:icon="@drawable/icon"
+		android:label="YYTV">
+		
+		<activity
+		android:name="io.vov.vitamio.activity.InitActivity"
+		android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+		android:launchMode="singleTop"
+		android:theme="@android:style/Theme.NoTitleBar"
+		android:windowSoftInputMode="stateAlwaysHidden" />
+		<activity
+			android:windowSoftInputMode="stateHidden"
+			android:launchMode="singleTop"
+			android:name=".main"
+			android:label="YYTV"
+			android:screenOrientation="landscape">
+			<intent-filter>
+			   <action android:name="android.intent.action.MAIN" />
+			   <category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			
+		</activity>
+		<service android:name="anywheresoftware.b4a.samples.httputils2.httputils2service">
+		</service>
+		<receiver android:name="anywheresoftware.b4a.samples.httputils2.httputils2service$httputils2service_BR">
+		</receiver>
+	</application>
+</manifest>

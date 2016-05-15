@@ -1,0 +1,13 @@
+按键键值定义
+按键	键值	说明
+Power	KeyEvent.KEYCODE_POWER	在任意画面按下后设备休眠，当前应用在前台暂停运行；设备唤醒后（依然通过power键），应用恢复运行，或者保持暂停状态由用户选择是否恢复（对于视频播放也可以退出播放回到播放前画面）。
+Home	KeyEvent.KEYCODE_HOME	MiTV：功能与安卓标准Home键一致。在任意画面按下后切换到系统主页，当前应用切换到后台暂停运行，再次点击应用图标恢复运行。MiBox1和MiBox1S：在任意画面按下后切换到系统主页，同时系统将当前应用自动关闭。
+Back	KeyEvent.KEYCODE_BACK	功能与安卓标准Back键一致。在应用主页按下后不得直接退出应用，应该给用户适当提示，由用户确认是否退出。
+Menu	KeyEvent.KEYCODE_MENU	功能与安卓标准Menu键一致。
+Volume Down	KeyEvent.KEYCODE_VOLUME_DOWN	MiBox1的标配遥控器无此按键，在MiBox1上有声应用需要自行实现应用音量调节，无法实现的有声应用不能在MiBox1上发行。
+Volume Up	KeyEvent.KEYCODE_VOLUME_UP	MiBox1的标配遥控器无此按键，在MiBox1上有声应用需要自行实现应用音量调节，无法实现的有声应用不能在MiBox1上发行。
+Left	KeyEvent.KEYCODE_DPAD_LEFT	
+Right	KeyEvent.KEYCODE_DPAD_RIGHT	
+Up	KeyEvent.KEYCODE_DPAD_UP	
+Down	KeyEvent.KEYCODE_DPAD_DOWN	
+OK/Center	KeyEvent.KEYCODE_DPAD_CENTER/KeyEvent.KEYCODE_ENTER	两个键值都要支持，以满足未来系统需求。
