@@ -1,0 +1,264 @@
+﻿Version=5.02
+NumberOfModules=1
+Module1=INI_RW
+Build1=Default,cn.soshare.me.YYTV
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.b4x.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="16"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~'vitamio~\n~AddApplicationText(<activity~\n~android:name="io.vov.vitamio.activity.InitActivity"~\n~android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"~\n~android:launchMode="singleTop"~\n~android:theme="@android:style/Theme.NoTitleBar"~\n~android:windowSoftInputMode="stateAlwaysHidden" />)
+IconFile=
+NumberOfFiles=2
+File1=key.txt
+File2=PlayList.csv
+NumberOfLibraries=4
+Library1=core
+Library2=vitamiobundle-4-2-0
+Library3=stringutils
+Library4=httputils2
+@EndOfDesignText@
+#Region  Project Attributes 
+	#ApplicationLabel: YYTV
+	#VersionCode: 1
+	#VersionName: 1.0.0.515
+	'SupportedOrientations possible values: unspecified, landscape or portrait.
+	#SupportedOrientations: landscape
+	#CanInstallToExternalStorage: False
+	#AdditionalRes: D:\Basic4android\ExtRes\Vitamio42res, io.vov.vitamio
+#End Region
+
+#Region  Activity Attributes 
+	#FullScreen: True
+	#IncludeTitle: false
+#End Region
+
+Sub Process_Globals
+	'These global variables will be declared once when the application starts.
+	'These variables can be accessed from all modules.
+End Sub
+
+Sub Globals
+	'These global variables will be redeclared each time the activity is created.
+	'These variables can only be accessed from this module.
+	Dim VitamioMediaController1 As Vitamio_MediaController
+	Dim VitamioVideoView1 As Vitamio_VideoView
+	Dim PlayList(200,3) As String
+	Dim listview As ListView
+	Dim PlayPosition As Int
+	Dim lbl_ch As Label
+	Dim time As Long = 0
+	Dim FileAddr As String
+	Dim Int_ListLength As Int
+	Dim Btn_UpdateList As Button
+End Sub
+
+Sub Activity_Create(FirstTime As Boolean)
+	'Do not forget to load the layout file created with the visual designer. For example:
+	'Activity.LoadLayout("Layout1")
+	If VitamioVideoView1.CheckVitamioLibs Then
+	
+		VitamioVideoView1.Initialize("VitamioVideoView1")
+		Activity.AddView(VitamioVideoView1, 0, 0, 100%x, 100%y)
+		
+		VitamioMediaController1.Initialize("VitamioMediaController1")		
+		VitamioVideoView1.SetVideoChroma( 0 )
+		VitamioVideoView1.SetVideoQuality(VitamioVideoView1.VIDEO_QUALITY_HIGH)		
+	End If
+  	
+	listview.Initialize("listview")
+	Activity.AddView(listview,0%x,0%y,30%x,100%y)
+	listview.Visible = False
+	convCSV("PlayList.csv",PlayList)
+	For i = 0 To PlayList.Length - 1
+		Int_ListLength = i
+		If PlayList(i,0) = "" Then Exit
+		listview.AddSingleLine(PlayList(i,0))
+	Next	
+	
+	lbl_ch.Initialize("")
+	Activity.AddView(lbl_ch,0%x,0%y,100%x,10%y)
+	lbl_ch.Gravity = Gravity.RIGHT
+	Lbl_AutoSize(lbl_ch,0.5)
+	
+	Dim buffer As String
+	buffer = INI_RW.Readini(File.DirDefaultExternal,"Config.ini","PlayList","position")
+	If (buffer = "") Then
+		PlayPosition = 0
+	Else
+		PlayPosition = buffer
+	End If
+	
+	buffer = INI_RW.Readini(File.DirDefaultExternal,"Config.ini","Source","FileAddr")
+	If (buffer = "") Then
+		FileAddr = "http://www.soshare.cn/app/YYTV/playlist.csv"
+		INI_RW.Writeini(File.DirDefaultExternal,"Config.ini","Source","FileAddr",FileAddr)
+	Else
+		FileAddr = buffer
+	End If
+	YYTVPlay
+	
+	Btn_UpdateList.Initialize("Btn_UpdateList")
+	Activity.AddView(Btn_UpdateList,90%x,90%y,10%x,10%y)
+	Btn_UpdateList.Text = "UpdateList"
+	Btn_UpdateList.Visible = False
+End Sub
+
+Sub listview_ItemClick (Position As Int, Value As Object)
+	If PlayList(Position,1) <> "" Then 
+		PlayPosition = Position
+		YYTVPlay
+		Btn_UpdateList.Visible = False
+	End If
+End Sub
+
+Sub Btn_UpdateList_Click
+	Btn_UpdateList.Visible = False
+	listview.Visible = False
+	PlayListDownLoad
+End Sub
+
+Sub Activity_Click
+	listview.SetSelection(PlayPosition)
+	Dim b As Boolean
+	b = listview.Visible
+	If b = True Then
+		listview.Visible = False
+		Btn_UpdateList.Visible = False
+	Else
+		listview.Visible = True
+		Btn_UpdateList.Visible = True
+	End If
+End Sub
+
+Sub Activity_Resume
+
+End Sub
+
+Sub Activity_Pause (UserClosed As Boolean)
+
+End Sub
+
+Sub Activity_KeyPress (KeyCode As Int) As Boolean 'Return True to consume the event
+	Select KeyCode
+		Case KeyCodes.KEYCODE_BACK
+			If DateTime.Now-time>2000 Then
+				time=DateTime.Now
+				ToastMessageShow("再按一次返回退出",False)				
+			 Else
+			 	ExitApplication
+			 End If
+			 Return True
+
+		Case KeyCodes.KEYCODE_DPAD_UP
+			If PlayPosition = 0 Then 
+				Exit 
+			Else
+				PlayPosition = PlayPosition - 1	
+			End If
+			YYTVPlay
+			
+		Case KeyCodes.KEYCODE_DPAD_DOWN
+			If PlayPosition = Int_ListLength - 1 Then 
+				Exit 
+			Else
+				PlayPosition = PlayPosition + 1	
+				If PlayList(PlayPosition,1) = "" Then PlayPosition = PlayPosition - 1	
+			End If
+			YYTVPlay
+			
+		Case KeyCodes.KEYCODE_MENU
+			PlayListDownLoad
+			
+		Case KeyCodes.KEYCODE_DPAD_CENTER
+	End Select
+End Sub
+
+Sub YYTVPlay
+	ProgressDialogShow(PlayList(PlayPosition,0))
+	lbl_ch.Text = PlayList(PlayPosition,0)
+	VitamioVideoView1.SetVideoPath(PlayList(PlayPosition,1))
+	listview.Visible = False
+	INI_RW.Writeini(File.DirDefaultExternal,"Config.ini","PlayList","position",PlayPosition)
+	VitamioVideoView1.SetVideoLayout(3,0)
+End Sub
+
+Sub VitamioVideoView1_Buffering(Percent As Int)
+	ProgressDialogHide
+	lbl_ch.Text = PlayList(PlayPosition,0) & Percent & "%"
+	'	Log("VitamioVideoView1_Buffering: "&Percent)	'	commented out to avoid excess logging
+End Sub
+
+Sub VitamioVideoView1_Complete
+	
+End Sub
+
+Sub VitamioVideoView1_Error(MEDIA_ERROR As Int) As Boolean
+	'	this event Sub must return a Boolean value to indicate whether it has handled the error or not
+	'	returning True will prevent the library from taking any action such as displaying an error message
+	ProgressDialogHide
+	ToastMessageShow("无信号",True)
+	Return True
+End Sub
+
+Sub VitamioVideoView1_Info(What As Int, Extra As Int) As Boolean
+	'	what does this event mean?
+	'	what do the Int parameters represent?
+	
+	'	Log("VitamioVideoView1_Info")	'	commented out to avoid excess logging
+	Return False 	'	indicates that this Sub has NOT handled the event and that the library should handle it
+End Sub
+
+Sub VitamioVideoView1_Prepared
+	'Log("VitamioVideoView1_Prepared")
+End Sub
+
+Sub VitamioVideoView1_SeekComplete
+	'ProgressDialogHide
+End Sub
+
+Sub VitamioVideoView1_TextSubtitleUpdated(SubText As String)
+	
+End Sub
+
+Sub convCSV(csv As String,Arr(,) As String)
+    Dim su As StringUtils
+    Dim list1 As List
+	If File.Exists(File.DirDefaultExternal,csv) = True Then
+		list1 = su.LoadCSV(File.DirDefaultExternal, csv, ",")
+	Else
+		list1 = su.LoadCSV(File.DirAssets, csv, ",")
+	End If
+    For i = 0 To list1.Size-1
+	    Dim sCol() As String 
+	    sCol = list1.Get(i)
+	    For j = 0 To sCol.Length-1
+			Arr(i,j) =  sCol(j)
+	    Next
+    Next  
+End Sub
+
+Sub Lbl_AutoSize(view As Label,factor As Float) As Float
+	Dim su As StringUtils
+	Dim size As Float
+	view.Text = "YYTV"
+	For size = 2 To 300
+		view.TextSize = size
+		If su.MeasureMultilineTextHeight(view,view.Text) > view.Height Then Exit
+	Next
+	view.TextSize = (size-0.5) * factor
+	Return	(size-0.5) * factor
+End Sub
+
+Sub PlayListDownLoad
+  	Dim job1 As HttpJob
+	job1.Initialize("Job", Me)
+	job1.Download(FileAddr)
+End Sub
+
+Sub JobDone (Job As HttpJob)  
+	If Job.Success = True Then
+		Dim out As OutputStream
+		out = File.OpenOutput(File.DirDefaultExternal,"playlist.csv",False)
+		File.Copy2(Job.GetInputStream, out)
+		out.Close
+		ToastMessageShow("DownSucc,please restart!",True)
+	Else
+		ToastMessageShow("DownFail!",False)
+	End If
+End Sub
