@@ -58,10 +58,12 @@ public class main extends Activity implements B4AActivity{
 		layout = new BALayout(this);
 		setContentView(layout);
 		afterFirstLayout = false;
-		BA.handler.postDelayed(new WaitForLayout(), 5);
+        WaitForLayout wl = new WaitForLayout();
+        if (anywheresoftware.b4a.objects.ServiceHelper.StarterHelper.startFromActivity(processBA, wl, true))
+		    BA.handler.postDelayed(wl, 5);
 
 	}
-	private static class WaitForLayout implements Runnable {
+	static class WaitForLayout implements Runnable {
 		public void run() {
 			if (afterFirstLayout)
 				return;
@@ -375,9 +377,9 @@ mostCurrent._listview.setVisible(anywheresoftware.b4a.keywords.Common.False);
 _convcsv("PlayList.csv",mostCurrent._playlist);
  //BA.debugLineNum = 53;BA.debugLine="For i = 0 To PlayList.Length - 1";
 {
-final int step26 = 1;
-final int limit26 = (int) (mostCurrent._playlist.length-1);
-for (_i = (int) (0); (step26 > 0 && _i <= limit26) || (step26 < 0 && _i >= limit26); _i = ((int)(0 + _i + step26))) {
+final int step12 = 1;
+final int limit12 = (int) (mostCurrent._playlist.length-1);
+for (_i = (int) (0) ; (step12 > 0 && _i <= limit12) || (step12 < 0 && _i >= limit12); _i = ((int)(0 + _i + step12)) ) {
  //BA.debugLineNum = 54;BA.debugLine="Int_ListLength = i";
 _int_listlength = _i;
  //BA.debugLineNum = 55;BA.debugLine="If PlayList(i,0) = \"\" Then Exit";
@@ -436,7 +438,7 @@ public static boolean  _activity_keypress(int _keycode) throws Exception{
  //BA.debugLineNum = 122;BA.debugLine="Sub Activity_KeyPress (KeyCode As Int) As Boolean";
  //BA.debugLineNum = 123;BA.debugLine="Select KeyCode";
 switch (BA.switchObjectToInt(_keycode,anywheresoftware.b4a.keywords.Common.KeyCodes.KEYCODE_BACK,anywheresoftware.b4a.keywords.Common.KeyCodes.KEYCODE_DPAD_UP,anywheresoftware.b4a.keywords.Common.KeyCodes.KEYCODE_DPAD_DOWN,anywheresoftware.b4a.keywords.Common.KeyCodes.KEYCODE_MENU,anywheresoftware.b4a.keywords.Common.KeyCodes.KEYCODE_DPAD_CENTER)) {
-case 0:
+case 0: {
  //BA.debugLineNum = 125;BA.debugLine="If DateTime.Now-time>2000 Then";
 if (anywheresoftware.b4a.keywords.Common.DateTime.getNow()-_time>2000) { 
  //BA.debugLineNum = 126;BA.debugLine="time=DateTime.Now";
@@ -449,8 +451,8 @@ anywheresoftware.b4a.keywords.Common.ExitApplication();
  };
  //BA.debugLineNum = 131;BA.debugLine="Return True";
 if (true) return anywheresoftware.b4a.keywords.Common.True;
- break;
-case 1:
+ break; }
+case 1: {
  //BA.debugLineNum = 134;BA.debugLine="If PlayPosition = 0 Then";
 if (_playposition==0) { 
  //BA.debugLineNum = 135;BA.debugLine="Exit";
@@ -461,8 +463,8 @@ _playposition = (int) (_playposition-1);
  };
  //BA.debugLineNum = 139;BA.debugLine="YYTVPlay";
 _yytvplay();
- break;
-case 2:
+ break; }
+case 2: {
  //BA.debugLineNum = 142;BA.debugLine="If PlayPosition = Int_ListLength - 1 Then";
 if (_playposition==_int_listlength-1) { 
  //BA.debugLineNum = 143;BA.debugLine="Exit";
@@ -476,13 +478,13 @@ _playposition = (int) (_playposition-1);};
  };
  //BA.debugLineNum = 148;BA.debugLine="YYTVPlay";
 _yytvplay();
- break;
-case 3:
+ break; }
+case 3: {
  //BA.debugLineNum = 151;BA.debugLine="PlayListDownLoad";
 _playlistdownload();
- break;
-case 4:
- break;
+ break; }
+case 4: {
+ break; }
 }
 ;
  //BA.debugLineNum = 155;BA.debugLine="End Sub";
@@ -530,9 +532,9 @@ _list1 = _su.LoadCSV(anywheresoftware.b4a.keywords.Common.File.getDirAssets(),_c
  };
  //BA.debugLineNum = 212;BA.debugLine="For i = 0 To list1.Size-1";
 {
-final int step149 = 1;
-final int limit149 = (int) (_list1.getSize()-1);
-for (_i = (int) (0); (step149 > 0 && _i <= limit149) || (step149 < 0 && _i >= limit149); _i = ((int)(0 + _i + step149))) {
+final int step8 = 1;
+final int limit8 = (int) (_list1.getSize()-1);
+for (_i = (int) (0) ; (step8 > 0 && _i <= limit8) || (step8 < 0 && _i >= limit8); _i = ((int)(0 + _i + step8)) ) {
  //BA.debugLineNum = 213;BA.debugLine="Dim sCol() As String";
 _scol = new String[(int) (0)];
 java.util.Arrays.fill(_scol,"");
@@ -540,9 +542,9 @@ java.util.Arrays.fill(_scol,"");
 _scol = (String[])(_list1.Get(_i));
  //BA.debugLineNum = 215;BA.debugLine="For j = 0 To sCol.Length-1";
 {
-final int step152 = 1;
-final int limit152 = (int) (_scol.length-1);
-for (_j = (int) (0); (step152 > 0 && _j <= limit152) || (step152 < 0 && _j >= limit152); _j = ((int)(0 + _j + step152))) {
+final int step11 = 1;
+final int limit11 = (int) (_scol.length-1);
+for (_j = (int) (0) ; (step11 > 0 && _j <= limit11) || (step11 < 0 && _j >= limit11); _j = ((int)(0 + _j + step11)) ) {
  //BA.debugLineNum = 216;BA.debugLine="Arr(i,j) =  sCol(j)";
 _arr[_i][_j] = _scol[_j];
  }
@@ -558,8 +560,8 @@ public static String  _globals() throws Exception{
 mostCurrent._vitamiomediacontroller1 = new uk.co.martinpearman.b4a.vitamio.widget.MediaController();
  //BA.debugLineNum = 25;BA.debugLine="Dim VitamioVideoView1 As Vitamio_VideoView";
 mostCurrent._vitamiovideoview1 = new uk.co.martinpearman.b4a.vitamio.widget.VideoView();
- //BA.debugLineNum = 26;BA.debugLine="Dim PlayList(200,3) As String";
-mostCurrent._playlist = new String[(int) (200)][];
+ //BA.debugLineNum = 26;BA.debugLine="Dim PlayList(2000,3) As String";
+mostCurrent._playlist = new String[(int) (2000)][];
 {
 int d0 = mostCurrent._playlist.length;
 int d1 = (int) (3);
@@ -616,13 +618,13 @@ float _size = 0f;
 _su = new anywheresoftware.b4a.objects.StringUtils();
  //BA.debugLineNum = 223;BA.debugLine="Dim size As Float";
 _size = 0f;
- //BA.debugLineNum = 224;BA.debugLine="view.Text = \"HMI\"";
-_view.setText((Object)("HMI"));
+ //BA.debugLineNum = 224;BA.debugLine="view.Text = \"YYTV\"";
+_view.setText((Object)("YYTV"));
  //BA.debugLineNum = 225;BA.debugLine="For size = 2 To 300";
 {
-final double step161 = 1;
-final double limit161 = (float) (300);
-for (_size = (float) (2); (step161 > 0 && _size <= limit161) || (step161 < 0 && _size >= limit161); _size = ((float)(0 + _size + step161))) {
+final double step4 = 1;
+final double limit4 = (float) (300);
+for (_size = (float) (2) ; (step4 > 0 && _size <= limit4) || (step4 < 0 && _size >= limit4); _size = ((float)(0 + _size + step4)) ) {
  //BA.debugLineNum = 226;BA.debugLine="view.TextSize = size";
 _view.setTextSize(_size);
  //BA.debugLineNum = 227;BA.debugLine="If su.MeasureMultilineTextHeight(view,view.Text)";

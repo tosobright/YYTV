@@ -103,9 +103,9 @@ _str = "";
 _str2 = _sections+"="+_keys+"=";
  //BA.debugLineNum = 78;BA.debugLine="For i = 0 To (l.Size - 1)";
 {
-final int step49 = 1;
-final int limit49 = (int) ((_l.getSize()-1));
-for (_i = (int) (0); (step49 > 0 && _i <= limit49) || (step49 < 0 && _i >= limit49); _i = ((int)(0 + _i + step49))) {
+final int step4 = 1;
+final int limit4 = (int) ((_l.getSize()-1));
+for (_i = (int) (0) ; (step4 > 0 && _i <= limit4) || (step4 < 0 && _i >= limit4); _i = ((int)(0 + _i + step4)) ) {
  //BA.debugLineNum = 79;BA.debugLine="str = l.Get(i)";
 _str = BA.ObjectToString(_l.Get(_i));
  //BA.debugLineNum = 80;BA.debugLine="If str.StartsWith(str2) Then";
@@ -170,9 +170,9 @@ _str = "";
 _str2 = _sections+"="+_keys+"=";
  //BA.debugLineNum = 102;BA.debugLine="For i = 0 To (l.Size - 1)";
 {
-final int step70 = 1;
-final int limit70 = (int) ((_l.getSize()-1));
-for (_i = (int) (0); (step70 > 0 && _i <= limit70) || (step70 < 0 && _i >= limit70); _i = ((int)(0 + _i + step70))) {
+final int step6 = 1;
+final int limit6 = (int) ((_l.getSize()-1));
+for (_i = (int) (0) ; (step6 > 0 && _i <= limit6) || (step6 < 0 && _i >= limit6); _i = ((int)(0 + _i + step6)) ) {
  //BA.debugLineNum = 103;BA.debugLine="str = l.Get(i)";
 _str = BA.ObjectToString(_l.Get(_i));
  //BA.debugLineNum = 104;BA.debugLine="If str.StartsWith(str2) Then";
@@ -204,9 +204,9 @@ _writer.Initialize((java.io.OutputStream)(anywheresoftware.b4a.keywords.Common.F
 _laststr = "";
  //BA.debugLineNum = 119;BA.debugLine="For i = 0 To l.Size - 1";
 {
-final int step87 = 1;
-final int limit87 = (int) (_l.getSize()-1);
-for (_i = (int) (0); (step87 > 0 && _i <= limit87) || (step87 < 0 && _i >= limit87); _i = ((int)(0 + _i + step87))) {
+final int step23 = 1;
+final int limit23 = (int) (_l.getSize()-1);
+for (_i = (int) (0) ; (step23 > 0 && _i <= limit23) || (step23 < 0 && _i >= limit23); _i = ((int)(0 + _i + step23)) ) {
  //BA.debugLineNum = 120;BA.debugLine="splitit(l.Get(i))";
 _splitit(_ba,BA.ObjectToString(_l.Get(_i)));
  //BA.debugLineNum = 121;BA.debugLine="If str <> laststr Then";

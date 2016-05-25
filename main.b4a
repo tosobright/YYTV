@@ -1,4 +1,4 @@
-﻿Version=5.02
+﻿Version=5.8
 NumberOfModules=1
 Module1=INI_RW
 Build1=Default,cn.soshare.me.YYTV
@@ -16,11 +16,11 @@ Library4=httputils2
 #Region  Project Attributes 
 	#ApplicationLabel: YYTV
 	#VersionCode: 1
-	#VersionName: 1.0.0.515
+	#VersionName: 1.1.0.525
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
 	#SupportedOrientations: landscape
 	#CanInstallToExternalStorage: False
-	#AdditionalRes: D:\Basic4android\ExtRes\Vitamio42res, io.vov.vitamio
+	#AdditionalRes: D:\Anywhere Software\Basic4android\ExtRes\Vitamio42res, io.vov.vitamio
 #End Region
 
 #Region  Activity Attributes 
@@ -38,7 +38,7 @@ Sub Globals
 	'These variables can only be accessed from this module.
 	Dim VitamioMediaController1 As Vitamio_MediaController
 	Dim VitamioVideoView1 As Vitamio_VideoView
-	Dim PlayList(200,3) As String
+	Dim PlayList(2000,3) As String
 	Dim listview As ListView
 	Dim PlayPosition As Int
 	Dim lbl_ch As Label
